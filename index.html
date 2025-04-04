@@ -41,31 +41,28 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-     <!-- CHECK <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-        <li class="nav-item">
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-         <a class="nav-link active" aria-current="page" href="index.html">Home</a> -->
 
 
-        <!--   KOMMENTERAT UT SHOP
-          <li class="nav-item dropdown">
-              <a
-                      class="nav-link dropdown-toggle"
-                      id="navbarDropdown"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-            >Shop</a
-              >
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-              </ul>
-            </li>
-          </ul> -->
+
+      <!--   KOMMENTERAT UT SHOP
+        <li class="nav-item dropdown">
+            <a
+                    class="nav-link dropdown-toggle"
+                    id="navbarDropdown"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+          >Shop</a
+            >
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#!">All Products</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+              <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+            </ul>
+          </li>
+        </ul> -->
       <!-- HÄR ÄR CART
       <form class="d-flex">
         <button class="btn btn-outline-dark" type="submit">
@@ -111,17 +108,17 @@
       <input type="text" id="address" required autocomplete="address-line1" placeholder="Champion street">
 
       <label for="postalCode">Postal code</label>
-      <input type="text" id="postalCode" required placeholder="29009">
+      <input type="text" id="postalCode" required autocomplete="on" placeholder="29009">
 
       <label for="city">City</label>
-      <input type="text" id="city" required placeholder="Palett town">
+      <input type="text" id="city" required autocomplete="on" placeholder="Palett town">
 
 
       <label for="email">Email</label>
       <input type="email" id="email" required autocomplete="email" placeholder="theVeryBest@thatEverWas.com">
 
       <label for="phoneNumber">Phone number</label>
-      <input type="tel" id="phoneNumber" required placeholder="019-1337">
+      <input type="tel" id="phoneNumber" required autocomplete="tel" placeholder="019-1337">
 
       <div class="discountCode">
         <label for="discountCode">Discount Code</label>

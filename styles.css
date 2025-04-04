@@ -224,7 +224,7 @@ body > *:not(footer){
 }
 
 .footer{
-position: relative !important; /*sätter sig i relation till närmsta positionering*/
+  position: relative !important; /*sätter sig i relation till närmsta positionering*/
   width: 100% !important;
   line-height: 0; /*tar bort extra utrymme under footern*/
   margin: 0;
@@ -265,7 +265,6 @@ a {
   --dark-text: #2A2438;         /* huvud-textfärgen */
   --white: #FFFFFF;
 }
-
 
 body {
   margin: 0;
