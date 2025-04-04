@@ -53,7 +53,7 @@ function addCheckOutListeners (){
 function displayProducts(json) {
     const cardContainerRow = document.querySelector('#cardContainer .row');
 
-    cardContainerRow.innerHTML = '';
+    cardContainerRow.innerHTML ='';
 
     //Map där alla produkter skapas upp samtidigt.
     const productCardsHTML = json.map(product => `
@@ -145,84 +145,139 @@ function showRatingChicks(rating) {
     return ratingChicks;
 }
 
-//actionlistener till krysset på popup
-closeModal.addEventListener("click", function () {
-    modal.style.display = "none";
-});
+
+if (!document.title.includes("About")){
+    //actionlistener till krysset på popup
+    closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
 
 //actionlistener till hela sidan, om click != popup, visa den inte
-window.addEventListener("click", function(event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-});
+    window.addEventListener("click", function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
 
 //actionlistener till fullName
-document.getElementById("fullName").addEventListener("input", function() {
-    let errorMessage = "";
+    document.getElementById("fullName").addEventListener("input", function() {
+        let errorMessage = "";
 
-    if (!this.value.includes(" ")) {
-        errorMessage = "Please enter both first and last name.";
-    } else if (this.value.length < 3 || this.value.length>50) {
-        errorMessage = "Unsupported length";
-    }
+        if (!this.value.includes(" ")) {
+            errorMessage = "Please enter both first and last name.";
+        } else if (this.value.length < 3 || this.value.length>50) {
+            errorMessage = "Unsupported length";
+        }
 
-    this.setCustomValidity(errorMessage);
-});
+        this.setCustomValidity(errorMessage);
+    });
 
 //actionlistener till phoneNumber
-document.getElementById("phoneNumber").addEventListener("input", function() {
-    let errorMessage = "";
+    document.getElementById("phoneNumber").addEventListener("input", function() {
+        let errorMessage = "";
 
-    //regex
-    let phonePattern = /^[0-9\s\-()]+$/
+        //regex
+        let phonePattern = /^[0-9\s\-()]+$/
 
-    if (!phonePattern.test(this.value)) {
-        errorMessage = "Please enter a valid phone number";
-    } else if (this.value.length>50) {
-        errorMessage = "Unsupported length";
-    }
+        if (!phonePattern.test(this.value)) {
+            errorMessage = "Please enter a valid phone number";
+        } else if (this.value.length>50) {
+            errorMessage = "Unsupported length";
+        }
 
-    this.setCustomValidity(errorMessage);
-});
+        this.setCustomValidity(errorMessage);
+    });
 
 // address: Min 2 tecken och Max 50 tecken
-document.getElementById(("address")).addEventListener("input", function() {
-    let errorMessage = "";
+    document.getElementById(("address")).addEventListener("input", function() {
+        let errorMessage = "";
 
-    let postalPattern = /^.{2,50}$/;
+        let postalPattern = /^.{2,50}$/;
 
-    if (!postalPattern.test(this.value)) {
-        errorMessage = "Please enter a valid address"
-    }
+        if (!postalPattern.test(this.value)) {
+            errorMessage = "Please enter a valid address"
+        }
 
-    this.setCustomValidity(errorMessage);
-});
+        this.setCustomValidity(errorMessage);
+    });
 
 // ii. postalCode: Exakt 5 siffror
-document.getElementById(("postalCode")).addEventListener("input", function() {
-    let errorMessage = "";
+    document.getElementById(("postalCode")).addEventListener("input", function() {
+        let errorMessage = "";
 
-    let postalPattern = /^\d{5}$/;
+        let postalPattern = /^\d{5}$/;
 
-    if (!postalPattern.test(this.value)) {
-        errorMessage = "Please enter a valid postal number"
-    }
+        if (!postalPattern.test(this.value)) {
+            errorMessage = "Please enter a valid postal number"
+        }
 
-    this.setCustomValidity(errorMessage);
-});
+        this.setCustomValidity(errorMessage);
+    });
 // iii. City: Min 2 tecken och Max 50 tecken
-document.getElementById(("city")).addEventListener("input", function() {
-    let errorMessage = "";
+    document.getElementById(("city")).addEventListener("input", function() {
+        let errorMessage = "";
 
-    let postalPattern = /^[a-zA-ZåäöÅÄÖ\s]{2,50}$/;
+        let postalPattern = /^[a-zA-ZåäöÅÄÖ\s]{2,50}$/;
 
-    if (!postalPattern.test(this.value)) {
-        errorMessage = "Please enter a valid city"
-    }
+        if (!postalPattern.test(this.value)) {
+            errorMessage = "Please enter a valid city"
+        }
 
-    this.setCustomValidity(errorMessage);
-});
+        this.setCustomValidity(errorMessage);
+    });
+
+    //Eventlistener för submit-knappen. Visar popup i nån sekund om formuläret är rätt ifyllt.
+    checkoutForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        orderValidation.style.display = "block";
+        orderValidation.style.opacity = "1";
+
+        //completely stäng
+        modal.style.display = "none"; //Stänger form-fönstret.
+
+        setTimeout(() => {
+
+            orderValidation.style.transition = "opacity 1s ease-out"; //fade-out-tid
+            orderValidation.style.opacity = "0";
+
+            setTimeout(() =>{
+                orderValidation.style.display = "none";
+            }, 1000)
+        }, 1500);   //Millisekunder validation visas i innan fade-out börjar
+    })
+
+    // Gör så rabattkoden funkar
+    document.getElementById("applyDiscount").addEventListener("click", function() {
+        // hämtar rabattkoden man skriver in och priset på produkten
+        const discountCode = document.getElementById("discountCode").value.trim();
+        const price = document.querySelector("#checkoutProduct .original-price");
+        const newPriceElement = document.querySelector("#checkoutProduct .new-price");
+        const priceText = price.textContent;
+
+        const originalPrice = parseFloat(priceText);
+
+        // Giltiga rabattkoder
+        const discountCodes = {
+            EASTER15: 15
+        };
+
+        const discountError = document.getElementById("discountError");
+        discountError.style.display = "none";
+        // Kollar om rabattkoden är giltig och räknar i så fall ut det nya priset
+        if (discountCodes[discountCode]) {
+            let discount = discountCodes[discountCode]
+            let newPrice = originalPrice - (originalPrice * (discount / 100));
+
+            price.style.textDecoration = 'line-through';
+            newPriceElement.textContent = newPrice.toFixed(2) + '€';
+
+        } else {
+            discountError.textContent = "Invalid discount code";
+            discountError.style.display = "block";
+        }
+    });
+}
+
 
 const eggs = document.querySelectorAll(".hidden-egg");
 const totalEggs = eggs.length;
@@ -243,75 +298,26 @@ eggs.forEach(egg => {
     });
 });
 
-//Eventlistener för submit-knappen. Visar popup i nån sekund om formuläret är rätt ifyllt.
-checkoutForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-    orderValidation.style.display = "block";
-    orderValidation.style.opacity = "1";
 
-    //completely stäng
-    modal.style.display = "none"; //Stänger form-fönstret.
 
-    setTimeout(() => {
 
-        orderValidation.style.transition = "opacity 1s ease-out"; //fade-out-tid
-        orderValidation.style.opacity = "0";
-
-        setTimeout(() =>{
-            orderValidation.style.display = "none";
-        }, 1000)
-    }, 1500);   //Millisekunder validation visas i innan fade-out börjar
-})
-
-// Gör så rabattkoden funkar
-document.getElementById("applyDiscount").addEventListener("click", function() {
-    // hämtar rabattkoden man skriver in och priset på produkten
-    const discountCode = document.getElementById("discountCode").value.trim();
-    const price = document.querySelector("#checkoutProduct .original-price");
-    const newPriceElement = document.querySelector("#checkoutProduct .new-price");
-    const priceText = price.textContent;
-
-    const originalPrice = parseFloat(priceText);
-
-    // Giltiga rabattkoder
-    const discountCodes = {
-        EASTER15: 15
-    };
-
-    const discountError = document.getElementById("discountError");
-    discountError.style.display = "none";
-    // Kollar om rabattkoden är giltig och räknar i så fall ut det nya priset
-    if (discountCodes[discountCode]) {
-        let discount = discountCodes[discountCode]
-        let newPrice = originalPrice - (originalPrice * (discount / 100));
-
-        price.style.textDecoration = 'line-through';
-        newPriceElement.textContent = newPrice.toFixed(2) + '€';
-
-    } else {
-        discountError.textContent = "Invalid discount code";
-        discountError.style.display = "block";
-    }
-});
-
-//Hämtar produkter när hemsidan öppnas
+//Hämtar produkter när index-hemsidan öppnas
 //Hämtar produktsida när produkt väljs
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
     const productDetailsContainer = document.getElementById('productDetails');
 
-     fetch('https://fakestoreapi.com/products')
-        .then(res => res.json())
-        .then(json => displayProducts(json))
-        .catch(err => console.error(err))
-
-
     if (productId && productDetailsContainer) {
         fetch(`https://fakestoreapi.com/products/${productId}`)
             .then(res => res.json())
             .then(product => displayProductDetails(product, productDetailsContainer))
             .catch(err => console.error(err));
+    } else if (document.title.includes("Homepage")) {
+        fetch('https://fakestoreapi.com/products')
+            .then(res => res.json())
+            .then(json => displayProducts(json))
+            .catch(err => console.error(err))
     }
 });
 
