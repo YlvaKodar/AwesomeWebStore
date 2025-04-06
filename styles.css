@@ -230,7 +230,7 @@ body > *:not(footer){
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #b19cd9; /*lavender backup*/
+
 }
 .footer-image{
   width: 100%;
