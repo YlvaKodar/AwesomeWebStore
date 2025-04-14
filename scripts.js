@@ -79,7 +79,7 @@ function displayProducts(json) {
                          <div class="d-flex justify-content-center small text-warning mb-2">
                            <div class="ratings">`
         + showRatingChicks(product.rating.rate) +
-            `
+        `
                          </div>
                          </div>
                          <!-- Product description-->
@@ -100,10 +100,10 @@ function displayProducts(json) {
                 </div>
             </div>
             `).join('');
-        //Korten läggs till samtidigt
-        cardContainerRow.innerHTML = productCardsHTML;
-        //Lägger till lyssnare på buyNow
-        addCheckOutListeners()
+    //Korten läggs till samtidigt
+    cardContainerRow.innerHTML = productCardsHTML;
+    //Lägger till lyssnare på buyNow
+    addCheckOutListeners()
 }
 
 //Genererar antal kycklingar beroende på rating. Inte exakt pga heltal, avrundar.
